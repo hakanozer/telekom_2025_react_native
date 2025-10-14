@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
+import Toast from 'react-native-toast-message';
 
 // Import Pages
 import Login from './Login'
@@ -23,6 +24,7 @@ const Routes = () => {
       <MainStack.Navigator>
         <MainStack.Screen name="UserLoginStack" component={UserLoginStack} options={{ headerShown: false }}/>
       </MainStack.Navigator>
+      <Toast />
     </NavigationContainer>
   )
 }
