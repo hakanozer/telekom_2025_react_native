@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { btnTxt, btnView, safeArea, txtInput } from '../utils/styleConst';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { userLogin } from '../services/userService';
 
 const Login = () => {
 
@@ -12,7 +13,7 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const userLogin = () => {
+  const fncLogin = () => {
     if (email == '') {
       Toast.show({
         type:'error',
@@ -24,7 +25,16 @@ const Login = () => {
         text1: 'Password Empty!'
       })
     }else {
-      
+      userLogin(email, password).then(res => {
+        // işlem başarılı oldu
+        const dt = res.data
+        console.log(dt)
+      }).catch(err => {
+        Toast.show({
+          type: 'error',
+          text1: 'Incorrect email or password'
+        })
+      })
     }
   }
 
@@ -38,7 +48,7 @@ const Login = () => {
         <TextInput onChangeText={(txt) => setEmail(txt)} autoComplete='email' autoCapitalize='none' keyboardType='email-address' placeholder='E-Mail' style={txtInput} />
         <TextInput onChangeText={(txt) => setPassword(txt)} autoComplete='password' secureTextEntry autoCapitalize='none' placeholder='Password' style={txtInput} />
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <TouchableOpacity onPress={userLogin}>
+            <TouchableOpacity onPress={fncLogin}>
                 <View style={btnView}>
                     <Text style={btnTxt}>Login</Text>
                 </View>
