@@ -2,13 +2,28 @@ import { StyleSheet, View } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Toast from 'react-native-toast-message';
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 // Import Pages
-import Login from './Login'
-import Register from './Register'
+import Login from './users/Login'
+import Register from './users/Register'
+
+// Products
+import Product from './products/Product';
+
+// Likes
+import Likes from './likes/Likes';
+
+// Settings
+import Settings from './setttings/Settings';
+
 
 const MainStack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
 
 // User Stack Navigator
 const UserLoginStack = () => (
@@ -18,11 +33,81 @@ const UserLoginStack = () => (
   </MainStack.Navigator>
 )
 
+// Product Stack Navigator
+const ProductStack = () => (
+  <MainStack.Navigator screenOptions={{ headerShown: false, }}>
+    <MainStack.Screen name="Product" component={Product} options={{ headerShown: false }} />
+  </MainStack.Navigator>
+)
+
+// Likes Stack Navigator
+const LikesStack = () => (
+  <MainStack.Navigator>
+    <MainStack.Screen name="Likes" component={Likes} options={{ headerShown: false }} />
+  </MainStack.Navigator>
+)
+
+// Settings Stack Navigator
+const SettingsStack = () => (
+  <MainStack.Navigator>
+    <MainStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+  </MainStack.Navigator>
+)
+
+
+const MainTab = () => (
+  <Tab.Navigator screenOptions={{
+    headerShown: true,
+    tabBarActiveTintColor: 'red',
+    tabBarInactiveTintColor: 'gray',
+    tabBarStyle: {height: 90, paddingBottom: 0,},
+    tabBarLabelStyle: {fontSize: 15},
+    }}>
+    <Tab.Screen
+      options={{
+        title: 'Products',
+        headerShown: true,
+        tabBarLabel: 'Products',
+        tabBarIcon: ({color, size}) => (
+          <SimpleLineIcons name="basket" size={30} color={color} />
+        )
+      }}
+      name='ProductStack'
+      component={ProductStack}
+    />
+    <Tab.Screen
+      options={{
+        title: 'Likes',
+        headerShown: true,
+        tabBarLabel: 'Likes',
+        tabBarIcon: ({color, size}) => (
+          <FontAwesome name="heart-o" size={30} color={color} />
+        )
+      }}
+      name='LikesStack'
+      component={LikesStack}
+    />
+    <Tab.Screen
+      options={{
+        title: 'Settings',
+        headerShown: true,
+        tabBarLabel: 'Settings',
+        tabBarIcon: ({color, size}) => (
+          <Ionicons name="settings-outline" size={30} color={color} />
+        )
+      }}
+      name='SettingsStack'
+      component={SettingsStack}
+    />
+  </Tab.Navigator>
+)
+
 const Routes = () => {
   return (
     <NavigationContainer>
       <MainStack.Navigator>
         <MainStack.Screen name="UserLoginStack" component={UserLoginStack} options={{ headerShown: false }}/>
+        <MainStack.Screen name="MainTab" component={MainTab} options={{ headerShown: false }}/>
       </MainStack.Navigator>
       <Toast />
     </NavigationContainer>
