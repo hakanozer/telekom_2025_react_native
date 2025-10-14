@@ -1,9 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { safeArea } from '../../utils/styleConst'
 
 const Likes = () => {
+
+  useEffect(() => {
+    console.log("Likes Call")
+  }, [])
+  
   return (
-    <View>
+    <View style={safeArea}>
       <Text>Likes</Text>
     </View>
   )
