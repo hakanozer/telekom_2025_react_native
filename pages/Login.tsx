@@ -5,13 +5,15 @@ import { btnTxt, btnView, safeArea, txtInput } from '../utils/styleConst';
 import { StackActions, useNavigation } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { userLogin } from '../services/userService';
+import apiClient from '../services/apiConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
 
   const navigation = useNavigation()
   
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('hakanozer02@gmail.com')
+  const [password, setPassword] = useState('123456')
 
   const fncLogin = () => {
     if (email == '') {
@@ -28,7 +30,13 @@ const Login = () => {
       userLogin(email, password).then(res => {
         // işlem başarılı oldu
         const dt = res.data
-        console.log(dt)
+        // global add header jwt
+        apiClient.interceptors.request.use(config => {
+          config.headers['Authorization'] = `Bearer ${dt.data.access_token}`
+          return config
+        })
+        AsyncStorage.setItem("token", dt.data.access_token)
+        AsyncStorage.setItem("name", dt.data.user.name)
       }).catch(err => {
         Toast.show({
           type: 'error',
@@ -45,8 +53,8 @@ const Login = () => {
   return (
     <SafeAreaView style={safeArea}>
         <Text style={styles.txtTitle}>User Login</Text>
-        <TextInput onChangeText={(txt) => setEmail(txt)} autoComplete='email' autoCapitalize='none' keyboardType='email-address' placeholder='E-Mail' style={txtInput} />
-        <TextInput onChangeText={(txt) => setPassword(txt)} autoComplete='password' secureTextEntry autoCapitalize='none' placeholder='Password' style={txtInput} />
+        <TextInput defaultValue={email} onChangeText={(txt) => setEmail(txt)} autoComplete='email' autoCapitalize='none' keyboardType='email-address' placeholder='E-Mail' style={txtInput} />
+        <TextInput defaultValue={password} onChangeText={(txt) => setPassword(txt)} autoComplete='password' secureTextEntry autoCapitalize='none' placeholder='Password' style={txtInput} />
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <TouchableOpacity onPress={fncLogin}>
                 <View style={btnView}>

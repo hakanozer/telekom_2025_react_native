@@ -1,3 +1,4 @@
+import { IUser } from "../models/IUser"
 import apiClient from "./apiConfig"
 
 export const userLogin = (email: string, password: string) => {
@@ -5,5 +6,5 @@ export const userLogin = (email: string, password: string) => {
         email: email,
         password: password
     }
-    return apiClient.post('auth/login', sendObj)
+    return apiClient.post<IUser>('auth/login', sendObj)
 }
