@@ -16,14 +16,21 @@ const Product = () => {
     }
   }, [isFocused])
   */
-  
+  const [page, setPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(0)
+  const [isLoad, setIsLoad] = useState(false)
   const [proArr, setProArr] = useState<IProduct[]>([])
   useEffect(() => {
-    allProducts(1).then(res => {
+    allProducts(page).then(res => {
       const dt = res.data
-      setProArr(dt.data)
+      setTotalPage(dt.meta.pagination.total_pages)
+      const newArr = [...proArr, ...dt.data]
+      setProArr(newArr)
+      if (totalPage == page) {
+        setIsLoad(true)
+      }
     })
-  }, [])
+  }, [page])
 
 
   return (
@@ -32,6 +39,14 @@ const Product = () => {
         data={proArr}
         renderItem={ ({item, index}) =>
           <ProductItem item={item} key={item.id} />
+        }
+        onEndReached={() => totalPage > page ? setPage(page + 1) : true}
+        ListFooterComponent={
+          <View style={{marginTop: 10, marginBottom: 10,}}>
+            {isLoad === true && 
+              <Text style={{textAlign: 'center', color: '#818181ff' }}>Tamamlandı...</Text>
+            }
+          </View>
         }
       />
     </View>
