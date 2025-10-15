@@ -14,6 +14,7 @@ import Register from './users/Register'
 
 // Products
 import Product from './products/Product';
+import ProductDetail from './products/ProductDetail';
 
 // Likes
 import Likes from './likes/Likes';
@@ -35,8 +36,9 @@ const UserLoginStack = () => (
 
 // Product Stack Navigator
 const ProductStack = () => (
-  <MainStack.Navigator screenOptions={{ headerShown: false, }}>
-    <MainStack.Screen name="Product" component={Product} options={{ headerShown: false }} />
+  <MainStack.Navigator>
+    <MainStack.Screen name="Product" component={Product} options={{ headerShown: true }} />
+    <MainStack.Screen name="ProductDetail" component={ProductDetail} options={{ headerShown: true, title: 'Product Detail' }} />
   </MainStack.Navigator>
 )
 
@@ -57,7 +59,7 @@ const SettingsStack = () => (
 
 const MainTab = () => (
   <Tab.Navigator screenOptions={{
-    headerShown: true,
+    headerShown: false,
     tabBarActiveTintColor: 'red',
     tabBarInactiveTintColor: 'gray',
     tabBarStyle: {height: 90, paddingBottom: 0,},
@@ -66,7 +68,7 @@ const MainTab = () => (
     <Tab.Screen
       options={{
         title: 'Products',
-        headerShown: true,
+        headerShown: false,
         tabBarLabel: 'Products',
         tabBarIcon: ({color, size}) => (
           <SimpleLineIcons name="basket" size={30} color={color} />

@@ -31,7 +31,7 @@ const Product = () => {
       <FlatList 
         data={proArr}
         renderItem={ ({item, index}) =>
-          <ProductItem item={item} />
+          <ProductItem item={item} key={item.id} />
         }
       />
     </View>
