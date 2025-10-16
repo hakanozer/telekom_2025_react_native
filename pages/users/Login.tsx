@@ -32,10 +32,7 @@ const Login = () => {
         // işlem başarılı oldu
         const dt = res.data
         // global add header jwt
-        apiClient.interceptors.request.use(config => {
-          config.headers['Authorization'] = `Bearer ${dt.data.access_token}`
-          return config
-        })
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${dt.data.access_token}`;
         AsyncStorage.setItem("token", dt.data.access_token)
         AsyncStorage.setItem("name", dt.data.user.name)
         // bu stack yapısını bellekten kaldır

@@ -9,8 +9,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as SQLite from 'expo-sqlite';
 
+// Splash
+import Splash from './splash/Splash';
 
-// Import Pages
+// Users
 import Login from './users/Login'
 import Register from './users/Register'
 
@@ -23,6 +25,7 @@ import Likes from './likes/Likes';
 
 // Settings
 import Settings from './setttings/Settings';
+
 
 
 const MainStack = createNativeStackNavigator()
@@ -124,6 +127,7 @@ const Routes = () => {
   return (
     <NavigationContainer>
       <MainStack.Navigator>
+        <MainStack.Screen name="Splash" component={Splash} options={{ headerShown: false }}/>
         <MainStack.Screen name="UserLoginStack" component={UserLoginStack} options={{ headerShown: false }}/>
         <MainStack.Screen name="MainTab" component={MainTab} options={{ headerShown: false }}/>
       </MainStack.Navigator>
