@@ -8,14 +8,6 @@ import ProductItem from '../../components/ProductItem'
 
 const Product = () => {
 
-  /*
-  const isFocused = useIsFocused()
-  useEffect(() => {
-    if (isFocused) {
-      console.log("Data Call")
-    }
-  }, [isFocused])
-  */
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
   const [isLoad, setIsLoad] = useState(false)

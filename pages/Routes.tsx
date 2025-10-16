@@ -1,5 +1,5 @@
 import { StyleSheet, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,6 +7,8 @@ import Toast from 'react-native-toast-message';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import * as SQLite from 'expo-sqlite';
+
 
 // Import Pages
 import Login from './users/Login'
@@ -45,7 +47,8 @@ const ProductStack = () => (
 // Likes Stack Navigator
 const LikesStack = () => (
   <MainStack.Navigator>
-    <MainStack.Screen name="Likes" component={Likes} options={{ headerShown: false }} />
+    <MainStack.Screen name="Likes" component={Likes} options={{ headerShown: true }} />
+    <MainStack.Screen name="ProductDetail" component={ProductDetail} options={{ headerShown: true, title: 'Product Detail' }} />
   </MainStack.Navigator>
 )
 
@@ -80,7 +83,7 @@ const MainTab = () => (
     <Tab.Screen
       options={{
         title: 'Likes',
-        headerShown: true,
+        headerShown: false,
         tabBarLabel: 'Likes',
         tabBarIcon: ({color, size}) => (
           <FontAwesome name="heart-o" size={30} color={color} />
@@ -105,6 +108,19 @@ const MainTab = () => (
 )
 
 const Routes = () => {
+
+  const initializeDatabase = async () => {
+    const db = await SQLite.openDatabaseAsync('proDB');
+    await db.execAsync(`
+    PRAGMA journal_mode = WAL;
+    CREATE TABLE IF NOT EXISTS likes (lid INTEGER PRIMARY KEY NOT NULL, pid INTEGER);
+    `);
+  }
+
+  useEffect(() => {
+    initializeDatabase()
+  }, [])
+
   return (
     <NavigationContainer>
       <MainStack.Navigator>
