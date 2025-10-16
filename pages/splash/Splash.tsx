@@ -16,7 +16,7 @@ const Splash = () => {
   const control = async () => {
     const token = await AsyncStorage.getItem('token')
     if (token) {
-        apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`; 
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }else {
         navigation.dispatch(StackActions.replace('UserLoginStack'))
     }
