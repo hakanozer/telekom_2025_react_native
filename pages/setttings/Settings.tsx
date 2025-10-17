@@ -86,6 +86,16 @@ const Settings = () => {
               value={user.data.role}
               editable={false}
             />
+          <TouchableOpacity>
+            <View style={[styles.btnView, {backgroundColor: '#005c3fff', marginTop: 10,}]}>
+              <Text style={styles.btnTxt}>Save</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.dispatch(StackActions.push('Maps')) }>
+            <View style={[styles.btnView, {backgroundColor: '#cb4604ff'}]}>
+              <Text style={styles.btnTxt}>Goto Map</Text>
+            </View>
+          </TouchableOpacity>
           </>
         }
       </ScrollView>

@@ -26,7 +26,7 @@ import Likes from './likes/Likes';
 
 // Settings
 import Settings from './setttings/Settings';
-
+import Maps from './setttings/Maps';
 
 
 const MainStack = createNativeStackNavigator()
@@ -59,7 +59,8 @@ const LikesStack = () => (
 // Settings Stack Navigator
 const SettingsStack = () => (
   <MainStack.Navigator>
-    <MainStack.Screen name="Settings" component={Settings} options={{ headerShown: false }} />
+    <MainStack.Screen name="Settings" component={Settings} options={{ headerShown: true }} />
+    <MainStack.Screen name="Maps" component={Maps} options={{ headerShown: true }} />
   </MainStack.Navigator>
 )
 
@@ -99,7 +100,7 @@ const MainTab = () => (
     <Tab.Screen
       options={{
         title: 'Settings',
-        headerShown: true,
+        headerShown: false,
         tabBarLabel: 'Settings',
         tabBarIcon: ({color, size}) => (
           <Ionicons name="settings-outline" size={30} color={color} />
