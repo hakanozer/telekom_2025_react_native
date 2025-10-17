@@ -9,6 +9,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as SQLite from 'expo-sqlite';
 
+
 // Splash
 import Splash from './splash/Splash';
 

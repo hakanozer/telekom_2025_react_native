@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 import { StackActions, useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import apiClient from '../../services/apiConfig'
+import { userMe } from '../../services/userService'
 
 const Splash = () => {
 
@@ -15,11 +16,21 @@ const Splash = () => {
 
   const control = async () => {
     const token = await AsyncStorage.getItem('token')
-    if (token) {
+    const timer = setTimeout(() => {
+      if (token) {
         apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }else {
-        navigation.dispatch(StackActions.replace('UserLoginStack'))
-    }
+        userMe().then(res => {
+          navigation.dispatch(StackActions.replace('MainTab'))
+        }).catch(err => {
+          AsyncStorage.clear().then(() => {
+            navigation.dispatch(StackActions.replace('UserLoginStack'))
+          })
+        })
+      }else {
+          navigation.dispatch(StackActions.replace('UserLoginStack'))
+      }
+    }, 2000);
+    return () => clearTimeout(timer)
   }
 
   return (
