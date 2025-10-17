@@ -1,17 +1,23 @@
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { safeArea } from '../../utils/styleConst'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { StackActions, useNavigation } from '@react-navigation/native'
-import { userLogout } from '../../services/userService'
+import { userLogout, userMe } from '../../services/userService'
 import Toast from 'react-native-toast-message'
+import { IUserMe } from '../../models/IUser'
+import { Hoshi } from 'react-native-textinput-effects';
 
 const Settings = () => {
 
   const navigation = useNavigation()
+  const [user, setUser] = useState<IUserMe>()
 
   useEffect(() => {
-    //console.log("Settings Call")
+    userMe().then(res => {
+      const dt = res.data
+      setUser(dt)
+    })
   }, [])
 
   const fncUserLogout = () => {
@@ -45,8 +51,43 @@ const Settings = () => {
   
   return (
     <View style={safeArea}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <Text>Settings</Text>
+      <ScrollView 
+      contentContainerStyle={styles.scrollView}
+      keyboardShouldPersistTaps='handled'
+      automaticallyAdjustKeyboardInsets
+      >
+        {user &&
+          <>
+            <Hoshi
+              label={'Name'}
+              borderColor={'#b1b1b1ff'}
+              borderHeight={1}
+              inputPadding={16}
+              backgroundColor={'#ffffffff'}
+              autoComplete='name'
+              defaultValue={user.data.name}
+            />
+            <Hoshi
+              label={'E-Mail'}
+              borderColor={'#b1b1b1ff'}
+              borderHeight={1}
+              inputPadding={16}
+              backgroundColor={'#ffffffff'}
+              autoComplete='email'
+              keyboardType='email-address'
+              defaultValue={user.data.email}
+            />
+            <Hoshi
+              label={'Role'}
+              borderColor={'#b1b1b1ff'}
+              borderHeight={1}
+              inputPadding={16}
+              backgroundColor={'#ffffffff'}
+              value={user.data.role}
+              editable={false}
+            />
+          </>
+        }
       </ScrollView>
       <TouchableOpacity onPress={fncUserLogout}>
         <View style={styles.btnView}>

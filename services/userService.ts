@@ -1,4 +1,4 @@
-import { IUser } from "../models/IUser"
+import { IUser, IUserMe } from "../models/IUser"
 import apiClient from "./apiConfig"
 
 export const userLogin = (email: string, password: string) => {
@@ -14,5 +14,5 @@ export const userLogout = () => {
 }
 
 export const userMe = () => {
-    return apiClient.get('profile/me')
+    return apiClient.get<IUserMe>('profile/me')
 }
